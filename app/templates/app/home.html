@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="../../static/css/button.css" rel="stylesheet" type="text/css" />
+    <style>
+        table {
+            border: solid black;
+        }
+    </style>
+
+</head>
+
+<body style='text-align: center;background-color: rgb(37, 37, 36);'>
+    <a style="background-color: white;" href="/app/newalarm/">알람만들러가기</a><br>
+    <button onclick='deleteall(event)'>전체삭제</button>
+    <br>
+    <!-- 알람정보박스 -->
+    {%for i in mnamelist%}
+    <div class='alarmtable' id='id{{i.id}}' style='background-color:rgb(83, 83, 77);padding-top: 10px; padding-bottom: 40px;
+                                            margin-bottom: 10px;
+                                            margin-top: 10px;
+                                            padding-right: 30px;
+                                            padding-left: 10px;
+                                            border-radius:7%;
+                                            position:relative; display:inline-block; border:1px solid black'>
+    <!--             -->
+        <span id="musicbox" style=" position: absolute; left:30px;">
+            <img style='width: 15px; height:15px;' src="../../static/other/재생.gif" alt="">
+            <span class ='musicinfo'style="font-size: 15px; background-color: rgb(143, 140, 136);">
+                {{i.martist}}의 {{i.mname}}<br>
+            </span>
+        </span>
+    <!--            -->
+        <br>
+        <span id='inbox' style='width:330px;margin-left:40px; margin-right:200px;display:inline-block;'>
+            <h2 class ='timeinfo'style="text-align:left; width:350px;font-size:50px;margin-left:10px; margin-right:10px;margin-top:20px; margin-bottom:10px;">
+                {{i.ampm}} {{i.hour}} : {{i.minute}}
+            </h2>
+            <hr>
+            <span class = 'weekinfo' style='background-color: rgba(73, 71, 71, 0);
+            font-size: 22px;
+            font-weight: 900;
+            position: absolute;
+            left: 57px;
+            bottom: 17px;'>
+            {{i.week}}
+            </span>
+            <span class='date' id="{{i.dayinfo}}" name={{i.id}}
+                style="position: absolute;
+                left: 160px;">
+                <img style='box-sizing : border-box;width: 25px; filter: grayscale(100%); ' id='월요일' src="../../static/weekdays/월요일.jpg" alt="">
+                <img style='box-sizing : border-box;width: 25px; filter: grayscale(100%);' id='화요일' src="../../static/weekdays/화요일.jpg" alt="">
+                <img style='box-sizing : border-box;width: 25px; filter: grayscale(100%);' id='수요일' src="../../static/weekdays/수요일.jpg" alt="">
+                <img style='box-sizing : border-box;width: 25px; filter: grayscale(100%);' id='목요일' src="../../static/weekdays/목요일.jpg" alt="">
+                <img style='box-sizing : border-box;width: 25px; filter: grayscale(100%);' id='금요일' src="../../static/weekdays/금요일.jpg" alt="">
+                <img style='box-sizing : border-box;width: 25px; filter: grayscale(100%);' id='토요일' src="../../static/weekdays/토요일.jpg" alt="">
+                <img style='box-sizing : border-box;width: 25px; filter: grayscale(100%);' id='일요일' src="../../static/weekdays/일요일.jpg" alt="">
+            </span>
+            <textarea class = 'captioninfo' style="width: 161px;
+            height: 98px;
+            position: absolute;
+            top: 26px;
+            right: 43px;">NOTE : {{i.caption}}</textarea>
+        </span>
+        
+        <button href="" type="button" style="width:100px;position: absolute; bottom: 10px;right: 34px;" name={{i.id}} onclick="d(event)" >
+            삭제하기</button>
+        <button href="" type="button" style="width:60px;position: absolute; bottom: 10px;right: 134px;" name={{i.id}} onclick="correction(event)" >
+            수정</button>
+    </div>
+    <br>
+    {%endfor%}
+    </table>
+    <!-- 끝 -->
+    <script>
+        function correction(e) {
+            let timeinfo = `
+            <input type='text' placeholder={{i.ampm}}>
+            <input type='text' placeholder='{{i.hour}}'>
+            <input type='text' value='{{i.minute}}'>
+            `; 
+            // let timeinfo = ``;
+            // let weekinfo = ``;
+            // let captioninfo = ``;
+            document.querySelector('.timeinfo').innerHTML = timeinfo;
+        }
+        function FindByAttributeValue(attribute, value, element_type) {
+            element_type = element_type || "*";
+            var All = document.getElementsByTagName(element_type);
+            for (var i = 0; i < All.length; i++) {
+                if (All[i].getAttribute(attribute) == value) { return All[i]; }
+            }
+        }
+        function deleteall(e) {
+            let a = document.querySelectorAll('.alarmtable');
+            for (i of a) {
+                i.remove();
+            }
+            const ajax = fetch('/app/deleteall/');
+        }
+        function d(e) {
+            target = e.target;
+            targetclass = target.getAttribute('name')
+            console.log(targetclass);
+            window.alert('정말 삭제하시겠습니까?')
+            document.querySelector(`#id${targetclass}`).remove();
+            const ajax = fetch(`/app/deleterecord/?deleteid=${targetclass}`);
+        }
+        console.log(document.querySelectorAll('.date'))
+        for (i of document.querySelectorAll('.date')) {
+            console.log(i, i.getAttribute('name'), i.id.length / 3);
+            let inputcode = '';
+            let idx = i.name;
+            for (x = 0; x < i.id.length / 3; x++) {
+                console.log(x);
+                let weekday = i.id.slice(3 * x, 3 * x + 3);
+                console.log(weekday);
+                // console.log(FindByAttributeValue("name",i.getAttribute('name')));
+                console.log(i.getAttribute('name'))
+                // let find = FindByAttributeValue("name", i.getAttribute('name'));
+                // let code = `<img style = 'width: 40px;'  src='../../static/weekdays/${weekday}.jpg'>`;
+                document.querySelector(`[name = "${i.getAttribute('name')}"]>#${weekday}`).style.width = '25px';
+                document.querySelector(`[name = "${i.getAttribute('name')}"]>#${weekday}`).style.border = '0px solid';
+                document.querySelector(`[name = "${i.getAttribute('name')}"]>#${weekday}`).style.filter = 'grayscale(0%)';
+                // document.querySelector(`FindByAttributeValue("name", "${i.getAttribute('name')}")>#${weekday})`.style.width = '50px';
+                // document.querySelector(`FindByAttributeValue("name", "${i.getAttribute('name')}")>#${weekday})`.style.filter = 'grayscale(0%)';
+                // inputcode +=code;
+            }
+            // i.innerHTML = inputcode;
+        }
+
+
+    </script>
+</body>
+
+</html>

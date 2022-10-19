@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            
+        </style>
+    </head>
+    <body>
+        <p>당신이 입력한 리스트</p>
+        <br>
+        <table>
+        {%for i in themenamelist%} 
+            <tr>
+                <td>{{i.theme_name}}</td>
+            </tr>
+        {% endfor %}
+        </table>
+        ok
+        <a href="/app/createmusictheme/">새로만들기</a>
+    </body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            
+        </style>
+    </head>
+    <body>
+        <form method = 'post'>
+            {% csrf_token %}
+            <input type="text" name="musicthemename" placeholder = '장르'>
+            <input type="text" name="themeimage" placeholder= '장르이미지(xx.jpg 형식)'>
+            <input type ='submit' value="적용">
+
+        </form>
+        <a href = '/app/createmusic/'>음악삽입하러가기</a>
+    </body>
+</html>

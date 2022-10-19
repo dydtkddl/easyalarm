@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="../../static/swiper/CSS/style.css">
+
+    <style>
+        html {
+            background-color: rgb(46, 45, 44);
+        }
+        body {
+            background-color: rgb(80, 85, 83);
+            margin: 0 auto;
+            width: 800px;
+
+        }
+        .swiper-slide>img {
+            width: 150px;
+            height: 150px;
+        }
+
+        /* .swiper-slide {
+            width: 100px !important;
+        } */
+        .swiper-slide-shadow-left {
+            display: none;
+        }
+
+        .swiper-slide-shadow-right {
+            display: none;
+        }
+
+        .swiper-slide>img:hover {
+            border: 1px solid black;
+        }
+        #daydiv>input:checked+label>img {
+            border: solid black;
+        }
+        input[name='week']:checked+label>img {
+            border: 3px solid black;
+        }
+    </style>
+</head>
+
+<body style="text-align: center;">
+    <form method='POST' action="/app/home/">
+        {% csrf_token %}
+        <!-- <div style="position:relative;display:inline-block;width:30%; height:150px;background-color:black; z-index: 2;"> -->
+        <div id='swiper1'>
+
+
+            <div class="swiper-container" style="display:inline-block">
+                <div class="swiper-wrapper">
+                    <!-- {% for i in musictheme %} -->
+                    <div class="swiper-slide">
+                        <img value='발라드' onclick='showmusic(event)' src="../../static/musictheme/발라드.jpg">
+                    </div>
+                    <div class="swiper-slide">
+                        <img value='팝송' onclick='showmusic(event)' src="../../static/musictheme/팝송.jpg">
+                    </div>
+                    <div class="swiper-slide">
+                        <img value='아이돌' onclick='showmusic(event)' src="../../static/musictheme/아이돌.jpg">
+                    </div>
+                    <!-- {% endfor %} -->
+                </div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+
+        </div>
+        <script src="../../static/swiper/JS/JS.js"></script>
+        <!-- <div style="position:relative;display:inline-block;width:30%; height:150px;background-color:black; z-index: 2;"> -->
+            
+            <br>
+            <p id='show'></p>
+            
+            
+            
+            <div id ='currenttimediv'>
+                
+            </div>
+            <div id = 'denote'>
+                <!-- 시간입력한거 날짜시간나오게하는칸 -->
+                <span id ='denoteampm'></span>
+                <span id ='denotetime'></span>
+                <span id ='denoteminute'></span>
+                
+            </div>
+        <div id='알람시간'>
+            <!-- 이미지맵 좌표 -->
+            <img src="../../static/시간선택.jpg" id = '시간' usemap="#imgmap" alt="이미지맵">
+            <map id="imgmap" name="imgmap"ondblclick="b(event)">
+                <area shape="poly" dbchangetime = '분선택' value="12시" alt="12" title="" coords="171,79,209,207,243,79,225,75,208,73,187,75"
+                onclick="a(event)" target="" />
+                <area shape="poly" dbchangetime = '분선택'value='1시' alt="1" title=""
+                coords="243,79,208,208,302,114,289,102,275,92,258,84,246,80,245,79" onclick="a(event)" target="" />
+                <area shape="poly" dbchangetime = '분선택'value='2시' alt="2" title="" coords="302,114,209,207,339,176,332,157,324,140,311,123"
+                onclick="a(event)" target="" />
+                <area shape="poly"dbchangetime = '분선택' value='3시' alt="3" title=""
+                coords="210,208,336,241,340,222,342,206,340,190,339,176,337,176" onclick="a(event)" target="" />
+                <area shape="poly" dbchangetime = '분선택'value='4시' alt="4" title="" coords="209,208,299,301,313,289,323,275,332,257,336,242"
+                onclick="a(event)" target="" />
+                <area shape="poly" dbchangetime = '분선택'value='5시' alt="5" title="" coords="208,207,240,335,262,330,275,323,290,313,301,303"
+                onclick="a(event)" target="" />
+                <area shape="poly"dbchangetime = '분선택' value='6시' alt="6" title="" coords="207,207,173,334,190,339,207,340,229,338,239,335"
+                    onclick="a(event)" target="" />
+                    <area shape="poly" dbchangetime = '분선택'value='7시' alt="7" title="" coords="172,334,207,207,113,299,126,312,140,323,157,331"
+                    onclick="a(event)" target="" />
+                    <area shape="poly"dbchangetime = '분선택' value='8시' alt="8" title=""
+                    coords="80,246,205,208,112,300,100,285,91,270,83,257,83,257" onclick="a(event)" target="" />
+                    <area shape="poly"dbchangetime = '분선택' value='9시' alt="9" title="" coords="79,173,205,207,81,246,73,224,72,205,74,187"
+                    onclick="a(event)" target="" />
+                    <area shape="poly"dbchangetime = '분선택' value='10시' alt="10" title="" coords="113,113,206,206,79,172,86,153,92,139,103,125"
+                    onclick="a(event)" target="" />
+                    <area shape="poly" alt="11" title="" coords="170,80,206,204,111,113,128,99,141,90,159,82"
+                    onclick="a(event)"dbchangetime = '분선택' value='11시' target="" />
+                </map>
+            </div>
+        <div id = 'selectampm'>
+            <input type="radio" name ='inputampm'id ='am2' value ='오전'>
+            <label for="am2"><img src="../../static/weekdays/오전.jpg" value ='오전' onclick="selectampm(event)"alt=""></label>
+            <input type="radio" name ='inputampm'id ='pm2' value = '오후'>
+            <label for="pm2"><img src="../../static/weekdays/오후.jpg" value = '오후' onclick="selectampm(event)"alt=""></label>
+        </div>
+
+        <!-- 이번주 다음주 다다음주-->
+        <div id ='selectweek'>
+            <input type="radio" name="week" id ='thisweek' value = '이번주'>
+            <label for="thisweek"><img src="../../static/weekdays/이번주.jpg" alt=""></label>
+            <input type="radio" name="week" id ='nextweek' value = '다음주'>
+            <label for="nextweek"><img src="../../static/weekdays/다음주.jpg" alt=""></label>
+            <input type="radio" name="week" id ='nextnextweek' value = '다다음주'>
+            <label for="nextnextweek"><img src="../../static/weekdays/다다음주.jpg" alt=""></label>
+        </div>
+        <!-- 요일선택 -->
+        <div id = 'daydiv'>
+            <input style = 'display:none; box-sizing: border-box;' type = 'checkbox' name = 'day' id ='월' value ='월/0' >
+            <label for="월"><img id ='월요일' style = 'width:85px'src="../../static/weekdays/월요일.jpg" alt=""></label>
+            <input style = 'display:none; box-sizing: border-box;' type = 'checkbox' name = 'day' id ='화' value ='화/1' >
+            <label for="화"><img id ='화요일' style = 'width:85px'src="../../static/weekdays/화요일.jpg" alt=""></label>
+            <input style = 'display:none; box-sizing: border-box;' type = 'checkbox' name = 'day' id ='수' value ='수/2' >
+            <label for="수"><img id ='수요일' style = 'width:85px' src="../../static/weekdays/수요일.jpg" alt=""></label>
+            <input style = 'display:none; box-sizing: border-box;' type = 'checkbox' name = 'day' id ='목' value ='목/3' >
+            <label for="목"><img id ='목요일' style = 'width:85px' src="../../static/weekdays/목요일.jpg" alt=""></label>
+            <input style = 'display:none; box-sizing: border-box;' type = 'checkbox' name = 'day' id ='금' value ='금/4' >
+            <label for="금"><img id ='금요일' style = 'width:85px' src="../../static/weekdays/금요일.jpg" alt=""></label>
+            <input style = 'display:none; box-sizing: border-box;' type = 'checkbox' name = 'day' id ='토' value ='토/5' >
+            <label for="토"><img id ='토요일' style = 'width:85px' src="../../static/weekdays/토요일.jpg" alt=""></label>
+            <input style = 'display:none; box-sizing: border-box;' type = 'checkbox' name = 'day' id ='일' value ='일/6'>
+            <label for="일"><img id ='일요일' style = 'width:85px'src="../../static/weekdays/일요일.jpg" alt=""></label>
+        </div>
+        <!-- 날짜 직접선택 버튼 -->
+        <div id ='directdiv'>
+
+        </div>
+        <!-- 캡션 -->
+        <div id = 'caption'>
+            <input type="textarea"style ='width:50%; height:100px;'placeholder = '캡션을 입력해주세요'name = 'caption'>
+        </div>
+        <div id='inputarea' style="display: none;">
+            <div id='inputtime'></div>
+            <div id='inputminute'></div>
+            
+            <div id='inputmusicdiv'></div>
+            <div id='inputmusicthemediv'></div>
+        </div>
+        <!-- 폼제출버튼 -->
+        <input type="submit">
+
+    </form>
+
+
+    <script>
+        window.onload = function() {
+            var day = new Date();
+            console.log(day.getFullYear())
+            let dayname = ["일", "월", "화", "수", "목", "금", "토"];
+            console.log(dayname[day.getDay()]+1);
+            let getday = document.querySelector(`#${dayname[day.getDay()]}`);
+            console.log(getday);
+
+            document.querySelector(`#${dayname[day.getDay()]}`).checked = true;
+            document.querySelector('#thisweek').checked = true;
+            document.querySelector('#am2').checked = true;
+            let ampm = document.querySelector('#selectampm>input:checked').value;   
+            let ampmcode = `<span>${ampm}</span>`;
+            document.querySelector('#denoteampm').innerHTML = ampmcode;
+           
+            
+            // let daychecked= document.querySelectorAll('#daydiv>input:checked');
+            // console.log(daychecked);
+            // let weekchecked= document.querySelector('#selectweek>input:checked');
+            // console.log(weekchecked);
+        }
+
+        function selectampm(e) {
+            target = e.target;
+            value = target.getAttribute('value');
+            console.log(value);
+            let ampmcode = `<span>${value}</span>`;
+            document.querySelector('#denoteampm').innerHTML = ampmcode;
+           
+        }
+        function getTime(){
+            const time = new Date();
+            console.log(time)
+            const year = time.getFullYear();
+            const month = time.getMonth()+1;
+            const date = time.getDate();
+            const hour = time.getHours();
+            const minutes = time.getMinutes();
+            const seconds = time.getSeconds();
+            
+            //clock.innerHTML = hour +":" + minutes + ":"+seconds;
+            document.getElementById('currenttimediv').innerHTML = `현재시간
+            <h3>${year}년 ${month}월 ${date}일 ${hour<10 ? `0${hour}`:hour}:${minutes<10 ? `0${minutes}`:minutes}:${seconds<10 ? `0${seconds}`:seconds}</h3>`
+        }
+
+
+        function init(){
+            setInterval(getTime, 1000);
+        }
+
+        init();
+
+        // 요일설정하는 함수
+        function selectday(e) {
+           let target = document.querySelectorAll('input[name="day"]:checked');
+           console.log(target);
+        }
+        // 오전오후/ 시간 맞추기
+        function b(e) {
+            console.log(1)
+            let code = `
+            <img style='scale:50%;' src="../../static/분선택.jpg" id = '분선택' usemap="#image-map">
+            <map id = 'image-map' name="image-map" ondblclick = "c(event)">
+                <area target=""   onclick="a2(event)" value ='0분'alt="" title="" coords="299,297,217,13,262,2,300,1,342,4,376,10" shape="poly">
+                <area target=""  onclick="a2(event)" value ='5분'alt="" title="" coords="378,11,301,296,503,82,447,40" shape="poly">
+                <area target="" onclick="a2(event)" value ='10분'alt="" title="" coords="504,83,301,297,585,219,556,150,535,118" shape="poly">
+                <area target="" onclick="a2(event)" value ='15분'alt="" title="" coords="586,220,301,297,585,381,596,300,596,275" shape="poly">
+                <area target="" onclick="a2(event)" value ='20분'alt="" title="" coords="302,300,510,508,557,446,584,382,561,377,540,369" shape="poly">
+                <area target="" onclick="a2(event)" value ='25분'alt="" title="" coords="301,302,374,583,449,555,510,509" shape="poly">
+                <area target="" onclick="a2(event)" value ='30분'alt="" title="" coords="298,299,220,585,298,595,374,587" shape="poly">
+                <area target="" onclick="a2(event)" value ='35분'alt="" title="" coords="299,298,85,503,152,556,219,584" shape="poly">
+                <area target="" onclick="a2(event)" value ='40분'alt="" title="" coords="298,296,11,373,41,449,83,502" shape="poly">
+                <area target="" onclick="a2(event)" value ='45분'alt="" title="" coords="14,215,2,299,12,369,297,297" shape="poly">
+                <area target="" onclick="a2(event)" value ='50분'alt="" title="" coords="88,89,43,148,15,213,296,297,99,100" shape="poly">
+                <area target="" onclick="a2(event)" value ='55분'alt="" title="" coords="151,40,89,87,301,299,216,13" shape="poly">
+            </map>
+            `;   
+            document.querySelector('#알람시간').innerHTML = code;
+        }
+        function c(e) {
+            console.log(1)
+            let code = `
+            <img  src="../../static/시간선택.jpg" id = '오전' usemap="#imgmap" alt="이미지맵">
+            <map id="imgmap" name="imgmap" ondblclick="b(event)">
+                <area dbchangetime = "오후"shape="poly" value="12시" alt="12" title="" coords="171,79,209,207,243,79,225,75,208,73,187,75" 
+                    onclick="a(event)" 
+                    target="" />
+                <area dbchangetime = "오후"shape="poly"  value ='1시' alt="1" title="" coords="243,79,208,208,302,114,289,102,275,92,258,84,246,80,245,79"
+                    onclick="a(event)" 
+                    target="" />
+                <area dbchangetime = "오후"shape="poly"  value ='2시'alt="2" title="" coords="302,114,209,207,339,176,332,157,324,140,311,123" 
+                    onclick="a(event)"
+                    target="" />
+                <area dbchangetime = "오후"shape="poly"  value ='3시'alt="3" title="" coords="210,208,336,241,340,222,342,206,340,190,339,176,337,176" 
+                    onclick="a(event)"
+                    target="" />
+                <area dbchangetime = "오후"shape="poly"  value ='4시'alt="4" title="" coords="209,208,299,301,313,289,323,275,332,257,336,242" 
+                    onclick="a(event)"
+                    target="" />
+                <area dbchangetime = "오후"shape="poly" value ='5시' alt="5" title="" coords="208,207,240,335,262,330,275,323,290,313,301,303" 
+                    onclick="a(event)" 
+                    target="" />
+                <area dbchangetime = "오후"shape="poly" value ='6시' alt="6" title="" coords="207,207,173,334,190,339,207,340,229,338,239,335" 
+                    onclick="a(event)"
+                    target="" />
+                <area dbchangetime = "오후"shape="poly" value ='7시' alt="7" title="" coords="172,334,207,207,113,299,126,312,140,323,157,331" 
+                    onclick="a(event)"
+                    target="" />
+                <area dbchangetime = "오후"shape="poly" value ='8시' alt="8" title="" coords="80,246,205,208,112,300,100,285,91,270,83,257,83,257" 
+                    onclick="a(event)"
+                    target="" />
+                <area dbchangetime = "오후" shape="poly" value ='9시' alt="9" title="" coords="79,173,205,207,81,246,73,224,72,205,74,187" 
+                    onclick="a(event)"
+                    target="" />
+                <area dbchangetime = "오후" shape="poly" value ='10시' alt="10" title="" coords="113,113,206,206,79,172,86,153,92,139,103,125" 
+                    onclick="a(event)"
+                    target="" />
+                <area dbchangetime = "오후" shape="poly" alt="11" title="" coords="170,80,206,204,111,113,128,99,141,90,159,82" 
+                    onclick="a(event)" value ='11시'
+                    target="" />
+            </map>
+            `;           
+            document.querySelector('#알람시간').innerHTML = code;
+            
+        }
+        function a(e) {
+            let target = e.target;
+            let value = target.getAttribute('value');
+            console.log(value);
+            let target2 = document.querySelector('#알람시간>img');
+            console.log('target2', target2.id);
+            let code = `<input type = 'text' name ='inputtime'value='${value}'>`;
+            document.querySelector('#inputtime').innerHTML = code;
+            
+            let ampm = document.querySelector('#selectampm>input:checked').value;   
+            let ampmcode = `<span>${ampm}</span>`;
+            document.querySelector('#denoteampm').innerHTML = ampmcode;
+            let code4 = `<span id="hour">${value}</span>`;
+            document.querySelector('#denotetime').innerHTML = code4;
+        }
+        function a2(e) {
+            let target = e.target;
+            let value = target.getAttribute('value');
+            console.log(value);
+            let target2 = document.querySelector('#알람시간>img');
+            console.log('target2', target2.id);
+            let code = `<input type = 'text' name ='inputminute'value='${value}'>`;
+            document.querySelector('#inputminute').innerHTML = code;
+            let code4 = `<span id="minute">${value}</span>`;
+            document.querySelector('#denoteminute').innerHTML = code4;
+        }
+        // 음악보여주는 창
+        function showmusic(e) {
+            let target = e.target;
+            console.log(target.getAttribute('value'));
+            let value = target.getAttribute('value');
+            const ajax = fetch(`/app/findmusic/?musictheme=${value}`);
+            ajax.then(function (response) {
+                return response.json();
+            }).then(function (result) {
+                console.log(result);
+                let code = `<div class="swiper-container" style="display:inline-block">
+                                <div class="swiper-wrapper">`;
+                for (i of result) {
+                    code += `<div class="swiper-slide">
+                                <img value = '${i.artist}/${i.name}' src="../../static/music/${i.image_name}">
+                            </div>
+                            `;
+                }
+                code += ` </div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                            </div>`;
+                document.querySelector('#swiper1').innerHTML = code;
+                let swiper = new Swiper('.swiper-container', {
+                    loop: true,
+                    centeredSlides: true,
+                    slidesPerView: '3',
+                    spaceBetween: 15,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    effect: 'coverflow',
+                    coverflowEffect: {
+                        rotate: 10,
+                        depth: 100,
+                        slideShadows: true,
+                        // stretch: 50
+                    },
+                });
+                swiper.on('slideChange', function (e) {
+                    //    스와이퍼 앞에있는 사진 값의 value 를 돌려주는 함수
+                    realIndex = e.realIndex;
+
+                    console.dir(swiper);
+
+                    console.dir(realIndex);
+                    img = e.el.querySelectorAll('img')[realIndex % 3];
+                    src = img.src
+                    value = img.getAttribute('value')
+                    // inputvalue = img.getAttribute('inputvalue')
+                    console.log(src, value)
+                    let code = `<p value='${value}'>${value}</p>`;
+                    document.querySelector('#show').innerHTML = code;
+                    let code1 = `<input type=text value='${value}' name ='selectedmusic'>`
+                    document.querySelector('#inputmusicdiv').innerHTML = code1;
+                });
+            })
+        }
+        swiper.on('slideChange', function (e) {
+            //    스와이퍼 앞에있는 사진 값의 value 를 돌려주는 함수
+            realIndex = e.realIndex
+            console.dir(swiper)
+            console.dir(e.$el)
+            console.dir(realIndex);
+            img = e.el.querySelectorAll('img')[realIndex % 3];
+            src = img.src
+            value = img.getAttribute('value')
+            console.log(src, value)
+            let code = `<p>${value}</p>`;
+            document.querySelector('#show').innerHTML = code;
+            let code1 = `<input type=text value='${value}' name ='selectedmusictheme'>`
+            document.querySelector('#inputmusicthemediv').innerHTML = code1;
+        });
+            // const swiper = new Swiper('.swiper', {});
+            // https://swiperjs.com/swiper-api#methods-and-properties
+    </script>
+</body>
+
+</html>

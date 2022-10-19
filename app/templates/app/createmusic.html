@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            
+        </style>
+    </head>
+    <body>
+        <form method = 'post'>
+            {% csrf_token %}
+            <input type="text" name="musicname" placeholder = "곡명">
+            <input type="text" name="musicartist" placeholder = "가수명">
+            <input type="text" name="musicimage" placeholder = "타이틀사진">
+            <input type="text" name="musicmp3" placeholder = "mp3파일명(.확장자명 까지)">
+            <select name="music_theme" id="music_theme">
+                {% for i in music_theme %}
+                <option value = '{{i.id}}'>{{i.theme_name}}</option>
+                {% endfor %} 
+            </select>
+            <input type ='submit' value="적용">
+        </form>
+        <script>
+        
+        </script>
+    </body>
+   
+</html>
