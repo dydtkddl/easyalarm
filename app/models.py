@@ -5,6 +5,7 @@ from pkg_resources import safe_extra
 
 # # Create your models here.
 
+
 class MusicTheme(models.Model):
     theme_name = models.CharField(max_length =100)
     theme_image = models.CharField(max_length =100)
