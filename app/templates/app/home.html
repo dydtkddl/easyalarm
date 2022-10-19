@@ -34,7 +34,7 @@
     <!--            -->
         <br>
         <span id='inbox' style='width:330px;margin-left:40px; margin-right:200px;display:inline-block;'>
-            <h2 class ='timeinfo'style="text-align:left; width:350px;font-size:50px;margin-left:10px; margin-right:10px;margin-top:20px; margin-bottom:10px;">
+            <h2 class ='timeinfo'ampm= '{{i.ampm}}' hour = '{{i.hour}}' minute = '{{i.minute}}'style="text-align:left; width:350px;font-size:50px;margin-left:10px; margin-right:10px;margin-top:20px; margin-bottom:10px;">
                 {{i.ampm}} {{i.hour}} : {{i.minute}}
             </h2>
             <hr>
@@ -43,7 +43,7 @@
             font-weight: 900;
             position: absolute;
             left: 57px;
-            bottom: 17px;'>
+            bottom: 17px;' week = '{{i.week}}'>
             {{i.week}}
             </span>
             <span class='date' id="{{i.dayinfo}}" name={{i.id}}
@@ -57,16 +57,15 @@
                 <img style='box-sizing : border-box;width: 25px; filter: grayscale(100%);' id='토요일' src="../../static/weekdays/토요일.jpg" alt="">
                 <img style='box-sizing : border-box;width: 25px; filter: grayscale(100%);' id='일요일' src="../../static/weekdays/일요일.jpg" alt="">
             </span>
-            <textarea class = 'captioninfo' style="width: 161px;
+            <p class = 'captioninfo'caption='{{i.caption}}' style="width: 161px;
             height: 98px;
             position: absolute;
             top: 26px;
-            right: 43px;">NOTE : {{i.caption}}</textarea>
+            right: 43px;">NOTE : {{i.caption}}</p>
         </span>
-        
         <button href="" type="button" style="width:100px;position: absolute; bottom: 10px;right: 34px;" name={{i.id}} onclick="d(event)" >
             삭제하기</button>
-        <button href="" type="button" style="width:60px;position: absolute; bottom: 10px;right: 134px;" name={{i.id}} onclick="correction(event)" >
+        <button href="" type="button" name = 'id{{i.id}}' style="width:60px;position: absolute; bottom: 10px;right: 134px;" name={{i.id}} onclick="correction(event)" >
             수정</button>
     </div>
     <br>
@@ -75,16 +74,33 @@
     <!-- 끝 -->
     <script>
         function correction(e) {
-            let timeinfo = `
+            let targetid = e.target.name;
+            let target = document.querySelector(`#${targetid}`);//수정버튼을클릭한 알람개체
+            console.log(target.querySelector('.timeinfo'));
+
+            let timeinfo = target.querySelector('.timeinfo');//시간정보
+            let ampm = timeinfo.getAttribute('ampm');
+            let hour = timeinfo.getAttribute('hour');
+            let minute = timeinfo.getAttribute('minute');
+            let timecode = `
+            <input type='text' style = 'background: transparent;' placeholder='${ampm}'>
+            <input type='text' style = 'background: transparent;' placeholder='${hour}'>
+            <input type='text' style = 'background: transparent;' placeholder='${minute}'>`;
+            timeinfo.innerHTML = timecode;
+
+            let weekinfo = target.querySelector('.weekinfo');//주차정보
+            let week = weekinfo.getAttribute('week');
+            console.log(week);
+            let weekcode = `
+            <input type='text' style = 'width:40px; background:transparent;' placeholder='${week}'>`;
+            weekinfo.innerHTML = weekcode;
             
-            <input type='text' style = 'display:inline;background: transparent;'>
-            <input type='text' style = 'background: transparent;'>
-            <input type='text' style = 'background: transparent;'>
-            `; 
-            // let timeinfo = ``;
-            // let weekinfo = ``;
-            // let captioninfo = ``;
-            document.querySelector('.timeinfo').innerHTML = timeinfo;
+            let captioninfo = target.querySelector('.captioninfo');//캡션정보
+            let caption = captioninfo.getAttribute('caption');
+            console.log(caption);
+            let captioncode = `<input type ='text' style = 'background: transparent;' placeholder = 'NOTE : ${caption}'>`;
+            captioninfo.innerHTML = captioncode;
+            let submitcode = `<input type="button" onclick="submit(event)" value ="제출">`;
         }
         function FindByAttributeValue(attribute, value, element_type) {
             element_type = element_type || "*";
